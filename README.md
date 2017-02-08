@@ -53,7 +53,7 @@ Sample configurations for Webpack 2.0
 * Jsou to transformace, které jsou aplikovány na moduly (soubory), než jsou přidány do balíčku
 * Pomocí loaderu lze např načítat CSS, transformovat JSX do JS, převádět obrázky do base64 stringů
 * Loadery lze za sebe řadit do pipeliny:
-    * **sass-loader** zpracovává css a vrací css => **css-loader** vezme css a provede další úpravy => **style-loader** vytvoří JS kód, který toto css vloží do <style> tagu v hlavičce HTML
+    * **sass-loader** zpracovává css a vrací css => **css-loader** vezme css a provede další úpravy => **style-loader** vytvoří JS kód, který toto css vloží do `<style>` tagu v hlavičce HTML
     * poslední loader v pipeline musí vrace JS kód
 
 ### Použití loaderů
