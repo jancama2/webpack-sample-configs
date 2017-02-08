@@ -17,12 +17,19 @@
         "url": "https://github.com/jancama2/webpack-sample-configs/issues"
     },
     "homepage": "https://github.com/jancama2/webpack-sample-configs#readme",
+    "scripts": {
+        "simple": "webpack --progress --config samples/simple/webpack.config.js;",
+        "multiple": "webpack --progress --config samples/multiple/webpack.config.js;",
+        "loaders": "webpack --progress --config samples/loaders/webpack.config.js",
+        "plugins": "webpack --progress --config samples/plugins/webpack.config.js"
+    },
     "devDependencies": {
         "babel-core": "^6.22.1",
         "babel-loader": "^6.2.10",
         "babel-preset-latest": "^6.22.0",
         "babel-preset-react": "^6.22.0",
         "css-loader": "^0.26.1",
+        "extract-text-webpack-plugin": "^2.0.0-beta",
         "file-loader": "^0.10.0",
         "node-sass": "^4.5.0",
         "sass-loader": "^5.0.0",
