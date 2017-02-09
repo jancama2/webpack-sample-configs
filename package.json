@@ -1,6 +1,6 @@
 {
     "name": "webpack-sample-configs",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Webpack 2.0 sample configurations",
     "repository": {
         "type": "git",
@@ -19,7 +19,7 @@
     "homepage": "https://github.com/jancama2/webpack-sample-configs#readme",
     "scripts": {
         "simple": "webpack --progress --config samples/simple/webpack.config.js;",
-        "multiple": "webpack --progress --config samples/multiple/webpack.config.js;",
+        "multipoint": "webpack --progress --config samples/multipoint/webpack.config.js;",
         "loaders": "webpack --progress --config samples/loaders/webpack.config.js",
         "plugins": "webpack --progress --config samples/plugins/webpack.config.js"
     },
