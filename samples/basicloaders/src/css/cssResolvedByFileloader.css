@@ -1,0 +1,9 @@
+body {
+    font-family: "Times New Roman";
+}
+
+body div:first-of-type {
+    width: 138px;
+    height: 138px;
+    background: url('../images/ackee.png');
+}

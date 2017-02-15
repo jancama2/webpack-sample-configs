@@ -21,7 +21,13 @@
         "simple": "webpack --progress --config samples/simple/webpack.config.js;",
         "multipoint": "webpack --progress --config samples/multipoint/webpack.config.js;",
         "loaders": "webpack --progress --config samples/loaders/webpack.config.js",
-        "plugins": "webpack --progress --config samples/plugins/webpack.config.js"
+        "plugins": "webpack --progress --config samples/plugins/webpack.config.js",
+        "deploy": "webpack --progress --config samples/deployment/webpack.config.js",
+        "vendors": "webpack --progress --config samples/vendors/webpack.config.js",
+        "devserver": "webpack-dev-server --open --config samples/devserver/webpack.config.js",
+        "livereload": "webpack --watch --config samples/devserver/webpack.config.js",
+        "basicloadersdev": "export NODE_ENV=development; webpack-dev-server --open --config samples/basicloaders/webpack.config.js",
+        "basicloadersprod": "export NODE_ENV=production; webpack --progress --config samples/basicloaders/webpack.config.js"
     },
     "devDependencies": {
         "babel-core": "^6.22.1",
@@ -29,14 +35,23 @@
         "babel-preset-latest": "^6.22.0",
         "babel-preset-react": "^6.22.0",
         "css-loader": "^0.26.1",
+        "expose-loader": "^0.7.3",
         "extract-text-webpack-plugin": "^2.0.0-beta",
         "file-loader": "^0.10.0",
+        "html-webpack-plugin": "^2.28.0",
+        "imports-loader": "^0.7.0",
         "node-sass": "^4.5.0",
         "sass-loader": "^5.0.0",
         "style-loader": "^0.13.1",
         "url-loader": "^0.5.7",
         "webpack": "^2.2.1",
+        "webpack-dev-server": "^2.3.0",
+        "webpack-livereload-plugin": "^0.10.0",
         "webpack-merge": "^2.6.1",
         "webpack-validator": "^2.3.0"
+    },
+    "dependencies": {
+        "jquery": "^3.1.1",
+        "lodash": "^4.17.4"
     }
 }

@@ -87,5 +87,69 @@ Sample configurations for Webpack 2.0
 * Zde může docházek k obfuskaci, extrakci vendorů do vlastních balíčků, nastavení ‘globálních’ proměnných atd., vlastně cokoli, co nejde udělat v loaderu
 * Nakonec uloží soubory podle specifikace v **output**
 
+## Chuťovečky
+### Deployment
+* Utilita `webpack-merge` umožňuje spojení více konfigurací Webpacku
+* V jednom `webpack.config.js` vytvoříme více objektů konfigurace:
+    * **common** - konfigurace společná pro všechny typy deploymentu
+    * **production** - konfigurace potřebná pro produkci
+    * **development** - konfiurace potřebaná pro developemnt
+    * atd.
+* Použijeme `webpack-merge` a `process.env.NODE_ENV` pro vytvoření správné konfigurace pro export z `webpack.config.js`
+
+### Development
+Pro vývoj lze využít dva typy přístupu:
+* `webpack-dev-server` poskytuje jednoduchý webserver, jehož nastavení se přidá do konfigurace
+    * spustí se pomocí `webpack-dev-server --config webpack.config.js`
+    * servuje data z nastavené složky, hledá primárně index.html
+    * provádí watch souborů a livereload
+    * **usecase**: pro javascriptové single page aplikace
+* `webpack-livereload-plugin` v kombinaci s `--watch` módem
+    * nastaví se jako plugin do konfigurace webpacku
+    * předá url JS souboru, který se vloží do html a pomocí `websocketů` provádí livereload stránky
+    * spustí se pomocí `webpack --watch --config webpack.config.js`
+    * **usecase**: v projektu kde používáte Webpack pro transpiling js a css (např. v kombinaci s Django, Symfony)
+
+### Základní loadery
+#### Práce se soubory
+##### file-loader
+Uloží soubor jako soubor do **output.path**, defaultně pod jméne `[hash].[ext]`, kde **hash** je md5 obsahu obrázku a **ext** je původní koncovka.
+Vrací public url určené z **output.publicPath** `/publicPath/[hash].[ext]`
+Lze upravovat jména za pomocí template stringů [viz. dokumentace](https://webpack.js.org/loaders/file-loader/)
+##### url-loader
+Funguje stejně jako **file-loader**, akorát pro specifikovanou velikost vrací base64 string místo public url.
+Více [viz. dokumentace](https://webpack.js.org/loaders/url-loader/)
+#### Práce se styly
+##### style-loader
+Jelikož Webpack pracuje nad javascript a umí tedy loadovat pouze javascript, je nutné importované styly nějakým způsobem zpracovat.
+**style-loader** načte styly a vytvoří js kod, který tyto styly po spuštění toho kódu vloží do hlavičky html dokumentu, ve kterém byl teno javascriptový kód spuštěn.
+Toto použití dává smysl, pokud používáme webpack navíc s nějakým loaderem, které provádí build stylů (**sass-loader** atd.).
+Lze použít i v kombinaci s **file-loaderem**, kdy přidá do hlavičky místo zbuilděných stylů jen `<link rel="stylesheet">` na zadaný soubor
+Více [viz. dokumentace](https://webpack.js.org/loaders/style-loader/)
+##### css-loader
+Přidává další zpracování nad css. Například dovoluje zpracování `@import` a `url()` pomocí **file-loaderu** nebo **url-loaderu**
+Také může například minimalizovat css.
+Více [viz. dokumentace](https://webpack.js.org/loaders/css-loader/)
+##### sass-loader
+Provádí transpiling **sass** do **css**. Používá se v kombinaci ss **css-loaderem** a **style-loaderem**
+Stejným způsobem lze také zpracovávat **less** pomocí **less-loaderu** nebo **stylus** pomocí **stylus-loaderu**
+Více [viz. dokumentace](https://webpack.js.org/loaders/css-loader/)
+#### Transpiling do JS
+##### babel-loader
+Provádí transpiling **ES6**, **ES7** atd do verze javascriptu, který je podporován v prohlížečích (dnes je plně podporováno **ES5**). Umí také překládat **JSX**.
+Konfiguraci lze provést v nastavení loaderu v konfiguraci Webpacku nebo v samostatném **.babelrc** souboru.
+V konfiguraci lze specifikovat, které verze standartu **EcmaScript** má překládat atd.
+Stejně lze provést například transpilaci **coffeescriptu** do javascriptu pomocí **coffee-loaderu**.
+Více [viz. dokumentace](https://webpack.js.org/loaders/babel-loader/)
+#### Řešení závislostí jQuery pluginů a spolu
+##### imports-loader
+Umožňuje jednoduše dynamicky přidat import (require) do specifickovaného modulu.
+Jednoduše připojí například `var $ = require('jquery')` na začátek specifikovaného souboru.
+Více [viz. dokumentace](https://webpack.js.org/loaders/imports-loader/)
+##### expose-loader
+Některé pluginy mohou záviset na nastavení globálních proměnných. Tento plugin dovoluje vystavit zadaný modul jako globální proměnnou a tak vyřešit závislosti.
+Více [viz. dokumentace](https://webpack.js.org/loaders/expose-loader/)
+
+
 
 
