@@ -1,5 +1,10 @@
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../fonts/OpenSans-Regular.ttf') format('truetype')
+}
+
 body {
-    font-family: "Times New Roman";
+    font-family: "OpenSans", serif;
 }
 
 body div:first-of-type {

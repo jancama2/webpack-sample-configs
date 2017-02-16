@@ -88,6 +88,13 @@ Sample configurations for Webpack 2.0
 * Nakonec uloží soubory podle specifikace v **output**
 
 ## Chuťovečky
+### Optimalizace velikosti balíčků vyčleněním vendorů
+Máme-li `object entry`, pak vytvoří Webpack více balíčků. Sdílí-li tyto balíčky některé vendory, pak jsou zabaleni do každého balíčku. Balíčky začnou rychle nabývat na velikosti, pokud do každého přibalujeme například `React` či `jQuery`.
+`CommonChunkPlugin` umožňuje vytvořit balíček vendorů, do kterého přidá specifikované vendory:
+* Jenoduše přidáme nový záznam do `object entry`, kterým je pole vendorů
+* poté v `CommonChunkPlugin` řekneme, že má toto entry vyčlenit do specifického souboru.
+* Balíček vendorů je poté potřeba přidat do html dokumentu před ostatní balíčky, aby se načetl jako první.
+
 ### Deployment
 * Utilita `webpack-merge` umožňuje spojení více konfigurací Webpacku
 * V jednom `webpack.config.js` vytvoříme více objektů konfigurace:
@@ -113,7 +120,7 @@ Pro vývoj lze využít dva typy přístupu:
 ### Základní loadery
 #### Práce se soubory
 ##### file-loader
-Uloží soubor jako soubor do **output.path**, defaultně pod jméne `[hash].[ext]`, kde **hash** je md5 obsahu obrázku a **ext** je původní koncovka.
+Uloží soubor jako soubor do **output.path**, defaultně pod jménem `[hash].[ext]`, kde **hash** je md5 obsahu obrázku a **ext** je původní koncovka.
 Vrací public url určené z **output.publicPath** `/publicPath/[hash].[ext]`
 Lze upravovat jména za pomocí template stringů [viz. dokumentace](https://webpack.js.org/loaders/file-loader/)
 ##### url-loader
@@ -122,8 +129,8 @@ Více [viz. dokumentace](https://webpack.js.org/loaders/url-loader/)
 #### Práce se styly
 ##### style-loader
 Jelikož Webpack pracuje nad javascript a umí tedy loadovat pouze javascript, je nutné importované styly nějakým způsobem zpracovat.
-**style-loader** načte styly a vytvoří js kod, který tyto styly po spuštění toho kódu vloží do hlavičky html dokumentu, ve kterém byl teno javascriptový kód spuštěn.
-Toto použití dává smysl, pokud používáme webpack navíc s nějakým loaderem, které provádí build stylů (**sass-loader** atd.).
+**style-loader** načte styly a vytvoří js kod, který tyto styly po svém spuštění vloží do hlavičky html dokumentu, ve kterém byl spuštěn.
+Toto použití dává smysl, pokud používáme Webpack navíc s nějakým loaderem, který provádí build stylů (**sass-loader** atd.).
 Lze použít i v kombinaci s **file-loaderem**, kdy přidá do hlavičky místo zbuilděných stylů jen `<link rel="stylesheet">` na zadaný soubor
 Více [viz. dokumentace](https://webpack.js.org/loaders/style-loader/)
 ##### css-loader
@@ -131,7 +138,7 @@ Přidává další zpracování nad css. Například dovoluje zpracování `@imp
 Také může například minimalizovat css.
 Více [viz. dokumentace](https://webpack.js.org/loaders/css-loader/)
 ##### sass-loader
-Provádí transpiling **sass** do **css**. Používá se v kombinaci ss **css-loaderem** a **style-loaderem**
+Provádí transpiling **sass** do **css**. Používá se v kombinaci s **css-loaderem** a **style-loaderem**
 Stejným způsobem lze také zpracovávat **less** pomocí **less-loaderu** nebo **stylus** pomocí **stylus-loaderu**
 Více [viz. dokumentace](https://webpack.js.org/loaders/css-loader/)
 #### Transpiling do JS
@@ -144,10 +151,10 @@ Více [viz. dokumentace](https://webpack.js.org/loaders/babel-loader/)
 #### Řešení závislostí jQuery pluginů a spolu
 ##### imports-loader
 Umožňuje jednoduše dynamicky přidat import (require) do specifickovaného modulu.
-Jednoduše připojí například `var $ = require('jquery')` na začátek specifikovaného souboru.
+Připojí například `var $ = require('jquery')` na začátek specifikovaného souboru.
 Více [viz. dokumentace](https://webpack.js.org/loaders/imports-loader/)
 ##### expose-loader
-Některé pluginy mohou záviset na nastavení globálních proměnných. Tento plugin dovoluje vystavit zadaný modul jako globální proměnnou a tak vyřešit závislosti.
+Některé pluginy mohou záviset na nastavení globálních proměnných (v proměnné `window`). Tento plugin dovoluje vystavit zadaný modul jako globální proměnnou do `window` a tak vyřešit závislosti.
 Více [viz. dokumentace](https://webpack.js.org/loaders/expose-loader/)
 
 

@@ -21,6 +21,8 @@ const FILENAMES = {
     vendor: 'vendors.js',
     sass: 'sass.build.css',
     html: 'index.html',
+    images: 'images/[hash].[ext]',
+    fonts: 'fonts/[hash].[ext]'
 };
 
 const FILES = {};
@@ -56,6 +58,14 @@ let config = {
                 ]
             },
             {
+                test: /\.coffee$/,
+                use: [
+                    {
+                        loader: 'coffee-loader'
+                    }
+                ]
+            },
+            {
                 test: /\.css$/,
                 exclude: /main.css/,
                 use: [
@@ -77,9 +87,24 @@ let config = {
                 test: /\.png$/,
                 use: [
                     {
+                        loader: 'url-loader',
+                        options: {
+                            name: FILENAMES.images,
+                            options: {
+                                mimetype: 'image/png',
+                                limit: 25000
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.ttf$/,
+                use: [
+                    {
                         loader: 'file-loader',
                         options: {
-                            name: 'images/[name].[ext]'
+                            name: FILENAMES.fonts
                         }
                     }
                 ]
